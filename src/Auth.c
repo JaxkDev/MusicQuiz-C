@@ -17,13 +17,10 @@
  *
  */
 
+#include "Auth.h"
+#include <stdbool.h>
 #include <stdio.h>
 
-#include "Boot.h"
-
-int main()
-{
-	puts("Music Quiz 2019 by Jackthehack21");
-	preboot();
-	return 0;
+int checkAuth(char* username, char* password){
+	return 1;
 }

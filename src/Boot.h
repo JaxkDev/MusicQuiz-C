@@ -17,13 +17,4 @@
  *
  */
 
-#include <stdio.h>
-
-#include "Boot.h"
-
-int main()
-{
-	puts("Music Quiz 2019 by Jackthehack21");
-	preboot();
-	return 0;
-}
+void preboot();
