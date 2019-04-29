@@ -33,6 +33,8 @@ int checkAuth(char* username, char* password) {
 	while (fscanf(ptr, "%s", buf) == 1){
 		if (found == 1 && strlen(buf) == strlen(password) && strcmp(buf,password) == 0) {
 			//strcmp is not enough on its own, as it can have whole parts of the string missing and still be valid, so check string length as well.
+			fflush(ptr);
+			fclose(ptr);
 			return 1;
 		} else {
 			if(found == 1) return 0;
@@ -41,6 +43,7 @@ int checkAuth(char* username, char* password) {
 			found = 1;
 		}
 	}
-
+	fflush(ptr);
+	fclose(ptr);
 	return 0;
 }

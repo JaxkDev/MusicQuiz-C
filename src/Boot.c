@@ -32,6 +32,8 @@ void preboot(){
 		fputs("Bob BobsPassword101\n", fp); //some demo data.
 		fputs("Mark MarksPassword101", fp);
 	}
+	fflush(ptr);
+	fclose(ptr);
 	ptr = fopen("music.txt","r");
 	if (ptr==NULL)
 	{
@@ -90,4 +92,6 @@ void preboot(){
 		fputs("Be-Alright Dean-Lewis\n",fp);
 		fputs("Barcelona Max-George",fp);
 	}
+	fflush(ptr);
+	fclose(ptr);
 }

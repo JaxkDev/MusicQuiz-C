@@ -24,11 +24,20 @@
 
 void start();
 void printRules();
+void authLoop();
 
 int main()
 {
 	puts("Music Quiz 2019 by Jackthehack21");
 	preboot();
+	authLoop();
+	start();
+
+	return 1;
+}
+
+void authLoop(){
+	//returns when finally authenticated.
 	printf("\nWelcome, Please enter your username: ");
 	char username[255];
 	gets(username);
@@ -38,19 +47,25 @@ int main()
 	printf("Please wait while we verify your details...\n");
 	if(checkAuth(username, password) == 1){
 		printf("Authentication Success.\n\n");
-		start();
+		return;
 	} else {
-		printf("Authentication Failed, Rebooting...\n\n");
-		main(); //hmm is this a good way to loop back around ?
-		return 0;
+		printf("Authentication Failed, Try again...\n\n");
+		authLoop();
 	}
-	return 0;
+	return;
 }
 
 void start(){
+	printRules();
+	//todo main loop.
 }
 
 void printRules(){
-	printf("--- Rules of the game ---");
-	//todo
+	puts("--- Rules of the game ---");
+	puts("1. No cheating (eg. Internet)");
+	puts("2. No using exploits/bugs found.");
+	puts("3. Remember all rules xD");
+	puts("-------------------------");
+	//todo implement a decent sleep, not one that wastes thread for certain amount of time.
+	return;
 }
