@@ -18,13 +18,17 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "Auth.h"
 #include "Boot.h"
 
 void start();
+void startGame();
 void printRules();
 void authLoop();
+char* getRandomSong();
 
 int main()
 {
@@ -33,7 +37,7 @@ int main()
 	authLoop();
 	start();
 
-	return 1;
+	return 1; //*note to self, always return a int, or prog will not end.
 }
 
 void authLoop(){
@@ -49,7 +53,7 @@ void authLoop(){
 		printf("Authentication Success.\n\n");
 		return;
 	} else {
-		printf("Authentication Failed, Try again...\n\n");
+		printf("Authentication Failed, Please try again...\n\n");
 		authLoop();
 	}
 	return;
@@ -58,13 +62,37 @@ void authLoop(){
 void start(){
 	printRules();
 	//todo main loop.
+	startGame();
+}
+
+void startGame(){
+	int score = 0;
+	int try = 0;
+	int question = 1;
+	int playing = 1; //1-true, 0-false
+
+	while(playing == 1){
+		try = 0;
+		printf("Question %d:\n",question);
+		char* song = getRandomSong();
+		puts(song);
+		playing = 0;
+	}
+}
+
+char* getRandomSong(){
+	srand(time(NULL));
+	int index = ( rand() % 45 ); //get random int between 0-45
+
+	printf("%d",index);
+	return "Hi";
 }
 
 void printRules(){
 	puts("--- Rules of the game ---");
 	puts("1. No cheating (eg. Internet)");
 	puts("2. No using exploits/bugs found.");
-	puts("3. Remember all rules xD");
+	puts("3. Remember all the above ^");
 	puts("-------------------------");
 	//todo implement a decent sleep, not one that wastes thread for certain amount of time.
 	return;

@@ -92,4 +92,5 @@ void preboot(){
 		fputs("Barcelona Max-George",fp);
 		fflush(ptr);
 	}
+	fclose(ptr);
 }
