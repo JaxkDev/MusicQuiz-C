@@ -43,7 +43,5 @@ int checkAuth(char* username, char* password) {
 			found = 1;
 		}
 	}
-	fflush(ptr);
-	fclose(ptr);
 	return 0;
 }
