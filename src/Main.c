@@ -16,10 +16,11 @@
  *  If not, see <https://www.gnu.org/licenses/>.
  *
  */
-
+#define BUFSIZE 1024
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #include "Auth.h"
 #include "Boot.h"
@@ -35,9 +36,10 @@ int main()
 	puts("Music Quiz 2019 by Jackthehack21");
 	preboot();
 	authLoop();
+
 	start();
 
-	return 1; //*note to self, always return a int, or prog will not end.
+	return 0; //*note to self, always return a int, or prog will not end.
 }
 
 void authLoop(){
@@ -61,39 +63,49 @@ void authLoop(){
 
 void start(){
 	printRules();
-	//todo main loop.
 	startGame();
 }
 
 void startGame(){
 	int score = 0;
-	int try = 0;
+	int try = 1;
 	int question = 1;
-	int playing = 1; //1-true, 0-false
 
-	while(playing == 1){
-		try = 0;
+	while(try < 3){
 		printf("Question %d:\n",question);
-		char* song = getRandomSong();
-		puts(song);
-		playing = 0;
+		char* song = getRandomSong(); //- seg error
+		printf(song);
+		return; //for now
 	}
+	return;
 }
 
 char* getRandomSong(){
 	srand(time(NULL));
 	int index = ( rand() % 45 ); //get random int between 0-45
-
-	printf("%d",index);
-	return "Hi";
+	static char buffer[BUFSIZE];
+	int count = 0;
+    FILE *file = fopen("music.txt","r");
+    while(fgets(buffer, BUFSIZE, file)){         
+        if(strcmp(buffer,"\n") != 0 && strcmp(buffer,"") != 0){
+			if(count == index){
+				fclose(file);
+				return buffer;
+			}
+			count++;
+		}
+	}
+	return "404 - Hmmmmmmm";
 }
 
 void printRules(){
-	puts("--- Rules of the game ---");
-	puts("1. No cheating (eg. Internet)");
-	puts("2. No using exploits/bugs found.");
-	puts("3. Remember all the above ^");
-	puts("-------------------------");
+	printf("--- Rules of the game ---\n");
+	printf("1. No cheating (eg. Internet)\n");
+	printf("2. Dont edit external files.\n");
+	printf("\nYou get 2 chances to guess the song.\n");
+	printf("^ Remember all the above ^\n");
+	printf("-------------------------\n");
+	
 	//todo implement a decent sleep, not one that wastes thread for certain amount of time.
 	return;
 }

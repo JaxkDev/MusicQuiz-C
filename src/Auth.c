@@ -26,12 +26,11 @@ int checkAuth(char* username, char* password) {
 	FILE *ptr = fopen("auth.txt", "r");
 	if (ptr == NULL) {
 		return 0;
-		//File is empty.
 	}
 	int found;
 	found = 0; //because we loop round for every space/line in file we have to see if line/space before was a valid username if so check password NOW.
-	char buf[100]; //100byts
-	while (fscanf(ptr, "%s", buf) == 1){
+	char buf[100]; //100bytes
+	while (fscanf(ptr, "%s", &buf) == 1){
 		if (found == 1 && strlen(buf) == strlen(password) && strcmp(buf,password) == 0) {
 			//strcmp is not enough on its own, as it can have whole parts of the string missing and still be valid, so check string length as well.
 			fflush(ptr);

@@ -19,6 +19,7 @@
 
 #include "Boot.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void preboot(){
 	puts("Please wait while we get things ready...");
