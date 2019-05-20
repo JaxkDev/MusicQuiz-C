@@ -37,7 +37,8 @@ void preboot(){
 	ptr = fopen("music.txt","r");
 	if (ptr==NULL)
 	{
-		/* 45 songs - demo data from
+		/* 50 default songs - demo data from
+		 * http://www.mtv.co.uk/music/charts/the-official-uk-top-40-singles-chart
 		 * https://www.bbc.co.uk/programmes/articles/TYv9MtpnqFRMPKP7QFcYfW/the-official-uk-top-40-singles-chart
 		 * https://www.deezer.com/en/playlist/4450888122
 		 */
@@ -70,7 +71,6 @@ void preboot(){
 		fputs("Burn Ellie-Goulding\n",fp);
 		fputs("Dynamite Taio-Cruz\n",fp);
 		fputs("Dear-Darlin Olly-Murs\n",fp);
-		fputs("IDGAF Dua-Lipa\n",fp);
 		fputs("2002 Anne-Marie\n",fp);
 		fputs("Shotgun George-Ezra\n",fp);
 		fputs("Not-Afraid Eminem\n",fp);
@@ -90,8 +90,14 @@ void preboot(){
 		fputs("Lost-Without-You Freya-Ridings\n",fp);
 		fputs("Without-Me Halsey\n",fp);
 		fputs("Be-Alright Dean-Lewis\n",fp);
-		fputs("Barcelona Max-George",fp);
-		fflush(ptr);
+		fputs("Barcelona Max-George\n",fp);
+		fputs("Vossi-Bop Stormzy\n", fp);
+		fputs("SOS Avicci\n", fp);
+		fputs("Location Dave\n", fp);
+		fputs("Here-With-Me Marshmellow\n", fp);
+		fputs("Talk Khalid\n", fp);
+		fputs("Homocide Logic",fp);
+		fflush(ptr); //fflush() found this the hard way while using my pi that it can sometimes store data in memory before writing, this forces it to clear cache and write to disk.
 	}
 	fclose(ptr);
 }

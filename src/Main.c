@@ -29,14 +29,19 @@ void start();
 void startGame();
 void printRules();
 void authLoop();
+void loadAllSongs();
 char* getRandomSong();
+
+char songs[0][40] = {}; //0 for current size, 40 for max char* length that goes in it in this case 36 but rounded for safety.
+int songsSize = 0;
 
 int main()
 {
+	srand(time(NULL));
 	puts("Music Quiz 2019 by Jackthehack21");
 	preboot();
 	authLoop();
-
+	loadAllSongs();
 	start();
 
 	return 0; //*note to self, always return a int, or prog will not end.
@@ -45,11 +50,13 @@ int main()
 void authLoop(){
 	//returns when finally authenticated.
 	printf("\nWelcome, Please enter your username: ");
-	char username[255];
-	gets(username);
+	char username[BUFSIZE];
+	fgets(username, BUFSIZE, stdin);
+	username[strcspn(username, "\n")] = 0; //remove trailing new lines from fgets.
 	printf("And your password please: ");
-	char password[255];
-	gets(password);
+	char password[BUFSIZE];
+	fgets(password, BUFSIZE, stdin);
+	password[strcspn(password, "\n")] = 0; //remove trailing new lines from fgets.
 	printf("Please wait while we verify your details...\n");
 	if(checkAuth(username, password) == 1){
 		printf("Authentication Success.\n\n");
@@ -67,35 +74,39 @@ void start(){
 }
 
 void startGame(){
-	int score = 0;
+	//int score = 0;
 	int try = 1;
 	int question = 1;
 
-	while(try < 3){
+	while(try < 100){
 		printf("Question %d:\n",question);
-		char* song = getRandomSong(); //- seg error
+		char* song = getRandomSong();
 		printf(song);
-		return; //for now
+		question++;
+		try++;
+		//return; //for now
 	}
 	return;
 }
 
-char* getRandomSong(){
-	srand(time(NULL));
-	int index = ( rand() % 45 ); //get random int between 0-45
-	static char buffer[BUFSIZE];
-	int count = 0;
-    FILE *file = fopen("music.txt","r");
+void loadAllSongs(){
+	int i = 0;
+	char buffer[BUFSIZE];
+	FILE *file = fopen("music.txt","r");
     while(fgets(buffer, BUFSIZE, file)){         
         if(strcmp(buffer,"\n") != 0 && strcmp(buffer,"") != 0){
-			if(count == index){
-				fclose(file);
-				return buffer;
-			}
-			count++;
+			//puts(buffer);
+			strcpy(songs[i], buffer);
+			i++;
 		}
 	}
-	return "404 - Hmmmmmmm";
+	songsSize = i;
+	return;
+}
+
+char* getRandomSong(){
+	int index = ( rand() % songsSize ); //get random int between 0 and array size
+	return songs[index];
 }
 
 void printRules(){
