@@ -21,6 +21,14 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <ctype.h>
+
+#if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)
+    #include <dos.h> // windows sleep();
+#else
+	#include <unistd.h> // linux sleep();
+#endif
+// https://stackoverflow.com/questions/142508/how-do-i-check-os-with-a-preprocessor-directive thanks ;)
 
 #include "Auth.h"
 #include "Boot.h"
@@ -31,6 +39,7 @@ void printRules();
 void authLoop();
 void loadAllSongs();
 char* getRandomSong();
+void cleanInput(char *msg);
 
 char songs[0][40] = {}; //0 for current size, 40 for max char* length that goes in it in this case 36 but rounded for safety.
 int songsSize = 0;
@@ -38,7 +47,7 @@ int songsSize = 0;
 int main()
 {
 	srand(time(NULL));
-	puts("Music Quiz 2019 by Jackthehack21");
+	puts("Music Quiz 2019 by Jack Honour AKA Jackthehack21,JaxkDev,Jackthehaxk21");
 	preboot();
 	authLoop();
 	loadAllSongs();
@@ -74,28 +83,89 @@ void start(){
 }
 
 void startGame(){
-	//int score = 0;
+	int score = 0;
 	int try = 1;
 	int question = 1;
+	int playing = 1;
 
-	while(try < 100){
-		printf("Question %d:\n",question);
-		char* song = getRandomSong();
-		printf(song);
-		question++;
-		try++;
-		//return; //for now
+	while(playing == 1){
+		char song[BUFSIZE];
+		char tmpName[BUFSIZE];
+		strcpy(song, getRandomSong()); //must copy first as strtok changes string directly and as getRandomSong returns a pointer and so it will change the song and so if used again it will not work.
+		char *name = strtok(song, " ");
+		char *artist = strtok(NULL, " ");
+		cleanInput(artist);
+		cleanInput(name); //lowercase but also a failsafe to strip other characters.
+
+		try = 1;
+
+		while(try < 3){
+			if(try == 1) printf("\nQuestion %d:\n",question);
+			else printf("\n\nQ%d Attempt %d:\n", question, try);
+			strcpy(tmpName, name);
+			char *tmp = strtok(tmpName, " ");
+			printf("Song Name: ");
+			while(tmp != NULL){
+				printf("%c", tmp[0]);
+				for(int i = 0; i < strlen(tmp)-1; i++){
+					printf(".");
+				}
+				printf(" ");
+				tmp = strtok(NULL, " ");
+			}
+			printf("\nSong Artist: %s\n\n", artist);
+			//Input here.
+			char guessName[BUFSIZE];
+			printf("Guess the song name:\n");
+			gets(guessName);
+			cleanInput(guessName);
+			printf("Your guess: '%s' by '%s' is...",guessName, artist);
+			fflush(stdout); //found that without flushing before sleep will mean whole print will wait untill finished sleeping.
+			sleep(2);
+			if(strcmp(name, guessName) == 0){
+				printf("Correct !\n");
+				question++;
+				if(try == 1){
+					score += 3;
+					printf("3 added to your score, current score: %d", score);
+				}
+				else{
+					score += 1;
+					printf("1 added to your score, current score: %d", score);
+				}
+				break;
+			} else {
+				printf("Incorrect !\n");
+				try++;
+			}
+		}
+		if(try >= 3) playing = 0; //stop loop.
 	}
+
+	printf("\n\nYou have finally been defeated, your final score... ");
+	fflush(stdout);
+	sleep(2);
+	printf("%d\n\n", score);
+
+
+	// ---- LEADERBOARD ----
+	//printf("Congratulations, you have reached the top 10 players !\n"); //todo check.
 	return;
 }
 
+/**
+ * loadAllSongs()
+ * Loads songs from music.txt into songs[]
+ */
 void loadAllSongs(){
 	int i = 0;
 	char buffer[BUFSIZE];
 	FILE *file = fopen("music.txt","r");
     while(fgets(buffer, BUFSIZE, file)){         
         if(strcmp(buffer,"\n") != 0 && strcmp(buffer,"") != 0){
-			//puts(buffer);
+			int len = strlen(buffer);
+			if( buffer[len-1] == '\n' )
+				buffer[len-1] = 0; //strip new lines from ending, thanks to St0rmD3v for making it much smaller then what i had :)
 			strcpy(songs[i], buffer);
 			i++;
 		}
@@ -104,11 +174,20 @@ void loadAllSongs(){
 	return;
 }
 
+/**
+ * getRandomSong()
+ * Returns random char* from songs[]
+ */
 char* getRandomSong(){
-	int index = ( rand() % songsSize ); //get random int between 0 and array size
+	int index = ( rand() % songsSize )+1; //get random int between 0 and array size
+	if(index >= songsSize) index = songsSize-1;
 	return songs[index];
 }
 
+/**
+ * printRule()
+ * Says it all.
+ */
 void printRules(){
 	printf("--- Rules of the game ---\n");
 	printf("1. No cheating (eg. Internet)\n");
@@ -116,7 +195,22 @@ void printRules(){
 	printf("\nYou get 2 chances to guess the song.\n");
 	printf("^ Remember all the above ^\n");
 	printf("-------------------------\n");
-	
-	//todo implement a decent sleep, not one that wastes thread for certain amount of time.
+	fflush(stdout);
+	sleep(5);
 	return;
+}
+
+/**
+ * cleanInput()
+ * Lowercase whole string (modifies original not reference) and replace's '-' with ' '
+ */
+void cleanInput(char* msg){
+	char space = ' ';
+	char find = '-';
+	for(int i = 0; i <strlen(msg); i++){
+		if(msg[i] == find) msg[i] = space;
+	}
+	for( ; *msg; ++msg){
+		*msg = tolower(*msg);
+	}
 }

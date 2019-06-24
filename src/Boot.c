@@ -46,6 +46,7 @@ void preboot(){
 		puts("Creating more needed files...");
 		FILE* fp = fopen("music.txt", "w");
 
+		fputs("--- Format: Song-Name Artist-Name ---\n",fp);
 		fputs("Someone-You-Loved  Lewis-Capaldi\n",fp);
 		fputs("Bad-Guy Billie-Eilish\n",fp);
 		fputs("Just-You-and-I Tom-Walker\n",fp);
