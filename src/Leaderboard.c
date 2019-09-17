@@ -28,3 +28,11 @@ typedef struct{
     char* name;
     int score;
 }player;
+
+int saveScore(Player player){
+
+};
+
+void showLeaderboard(){
+
+};
