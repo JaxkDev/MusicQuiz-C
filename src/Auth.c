@@ -1,6 +1,6 @@
 /*
  *  Music Quiz 2019 - OCR Programming Task 1
- *  Copyright (C) 2019 - Jack Honour (Jackthehack21/JaxkDev/Jackthehaxk21)
+ *  Copyright (C) 2019 - Jack Honour (JaxkDev)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

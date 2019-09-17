@@ -7,13 +7,13 @@ Decided to do one in C a language not entirely certain about but its gonna be a 
 ### Contact:
 Discord - Jackthehaxk21#8860
 Twitter - @JaxkDev
-Email   - gangnam253@gmail.com
+Email   - JaxkDev@gmail.com
 
 ### License:
 _Open source program under the GNU General Public License v3.0_
 
     Music Quiz 2019 - OCR Programming Task 1
-    Copyright (C) 2019 - Jack Honour (Jackthehack21/JaxkDev/Jackthehaxk21)
+    Copyright (C) 2019 - Jack Honour (JaxkDev)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

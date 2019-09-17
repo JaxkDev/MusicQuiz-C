@@ -1,6 +1,6 @@
 /*
  *  Music Quiz 2019 - OCR Programming Task 1
- *  Copyright (C) 2019 - Jack Honour (Jackthehack21/JaxkDev/Jackthehaxk21)
+ *  Copyright (C) 2019 - Jack Honour (JaxkDev)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -34,6 +34,17 @@ void preboot(){
 		fputs("Mark MarksPassword101", fp);
 		fflush(ptr);
 	}
+	fclose(ptr);
+
+	ptr = fopen("leaderboard.txt", "r");
+	if (ptr==NULL)
+	{
+		FILE* fp = fopen("leaderboard.txt", "w");
+		fputs("", fp);
+		fflush(ptr);
+	}
+	fclose(ptr);
+
 	ptr = fopen("music.txt","r");
 	if (ptr==NULL)
 	{

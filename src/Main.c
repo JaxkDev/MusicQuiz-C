@@ -1,6 +1,6 @@
 /*
  *  Music Quiz 2019 - OCR Programming Task 1
- *  Copyright (C) 2019 - Jack Honour (Jackthehack21/JaxkDev/Jackthehaxk21)
+ *  Copyright (C) 2019 - Jack Honour (JaxkDev)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -33,7 +33,6 @@
 #include "Auth.h"
 #include "Boot.h"
 
-void start();
 void startGame();
 void printRules();
 void authLoop();
@@ -43,23 +42,23 @@ void cleanInput(char *msg);
 
 char songs[0][40] = {}; //0 for current size, 40 for max char* length that goes in it in this case 36 but rounded for safety.
 int songsSize = 0;
+char username[BUFSIZE];
 
 int main()
 {
 	srand(time(NULL));
-	puts("Music Quiz 2019 by Jack Honour AKA Jackthehack21,JaxkDev,Jackthehaxk21");
+	puts("Music Quiz 2019 by Jack Honour AKA JaxkDev");
 	preboot();
-	authLoop();
 	loadAllSongs();
-	start();
-
+	authLoop();
+	printRules();
+	startGame();
 	return 0; //*note to self, always return a int, or prog will not end.
 }
 
 void authLoop(){
 	//returns when finally authenticated.
 	printf("\nWelcome, Please enter your username: ");
-	char username[BUFSIZE];
 	fgets(username, BUFSIZE, stdin);
 	username[strcspn(username, "\n")] = 0; //remove trailing new lines from fgets.
 	printf("And your password please: ");
@@ -75,11 +74,6 @@ void authLoop(){
 		authLoop();
 	}
 	return;
-}
-
-void start(){
-	printRules();
-	startGame();
 }
 
 void startGame(){
@@ -116,11 +110,11 @@ void startGame(){
 			printf("\nSong Artist: %s\n\n", artist);
 			//Input here.
 			char guessName[BUFSIZE];
-			printf("Guess the song name:\n");
+			printf("%s, Try and guess the song name:\n", username);
 			gets(guessName);
 			cleanInput(guessName);
-			printf("Your guess: '%s' by '%s' is...",guessName, artist);
-			fflush(stdout); //found that without flushing before sleep will mean whole print will wait untill finished sleeping.
+			printf("%s, Your guess: '%s' by '%s' is...",username, guessName, artist);
+			fflush(stdout); //found that without flushing before sleep will mean whole print will wait until finished sleeping.
 			sleep(2);
 			if(strcmp(name, guessName) == 0){
 				printf("Correct !\n");
@@ -142,7 +136,7 @@ void startGame(){
 		if(try >= 3) playing = 0; //stop loop.
 	}
 
-	printf("\n\nYou have finally been defeated, your final score... ");
+	printf("\n\n%s You have finally been defeated, your final score... ", username);
 	fflush(stdout);
 	sleep(2);
 	printf("%d\n\n", score);
