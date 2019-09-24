@@ -24,15 +24,21 @@
 #include <string.h>
 
 //Player structure, char* name and int score.
-typedef struct{
-    char* name;
-    int score;
-}player;
+#include "Leaderboard.h"
 
 int saveScore(Player player){
-
+    FILE *scoreboardfile = fopen("leaderboard.txt", "a");
+ 
+    fprintf(scoreboardfile, "%s %d\n", player.name, player.score);
+    fflush(scoreboardfile);
+    fclose(scoreboardfile);
+    showLeaderboard();
 };
 
 void showLeaderboard(){
+    
+};
 
+int getFileSize(char* name){
+    
 };
