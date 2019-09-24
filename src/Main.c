@@ -32,6 +32,7 @@
 
 #include "Auth.h"
 #include "Boot.h"
+#include "Leaderboard.h"
 
 void startGame();
 void printRules();
@@ -143,7 +144,11 @@ void startGame(){
 
 
 	// ---- LEADERBOARD ----
-	//printf("Congratulations, you have reached the top 10 players !\n"); //todo check.
+	// ---- LEADERBOARD ----
+	Player player;
+	player.name = username;
+	player.score = score;
+	saveScore(player);
 	return;
 }
 
