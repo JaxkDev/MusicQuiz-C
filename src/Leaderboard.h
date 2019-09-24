@@ -17,5 +17,11 @@
  *
  */
 
+typedef struct{
+    char* name;
+    int score;
+}Player;
+
 int saveScore(Player player);
 void showLeaderboard();
+int getFileSize(char* name);
