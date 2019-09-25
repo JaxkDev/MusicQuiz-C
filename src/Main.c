@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 {
 	if(argc >= 2)
 	{
-		if(argv[1] == "--ci"){
+		if(strlen(argv[1]) == strlen("--ci") && strcmp(argv[1],"--ci") == 0){
 			puts("CI Mode Enabled, loading resources then shutting down.");
 			preboot();
 			loadAllSongs();
