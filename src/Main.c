@@ -45,8 +45,20 @@ char songs[0][40] = {}; //0 for current size, 40 for max char* length that goes 
 int songsSize = 0;
 char username[BUFSIZE];
 
-int main()
+int main(int argc, char *argv[])
 {
+	if(argc >= 1)
+	{
+		if(argv[0] == "--ci"){
+			puts("CI Mode Enabled, loading resources then shutting down.");
+			preboot();
+			loadAllSongs();
+			puts("Boot completed, exiting now.");
+			return 0;
+		} else {
+			printf("Unknown argument provided: %s", argv[0]);
+		}
+	}
 	srand(time(NULL));
 	puts("Music Quiz 2019 by Jack Honour AKA JaxkDev");
 	preboot();
