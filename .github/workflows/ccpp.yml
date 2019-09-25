@@ -12,4 +12,4 @@ jobs:
     - name: make
       run: make
     - name: run
-      run: ./main
+      run: ./main --ci
