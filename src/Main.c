@@ -47,16 +47,16 @@ char username[BUFSIZE];
 
 int main(int argc, char *argv[])
 {
-	if(argc >= 1)
+	if(argc >= 2)
 	{
-		if(argv[0] == "--ci"){
+		if(argv[1] == "--ci"){
 			puts("CI Mode Enabled, loading resources then shutting down.");
 			preboot();
 			loadAllSongs();
 			puts("Boot completed, exiting now.");
 			return 0;
 		} else {
-			printf("Unknown argument provided: %s", argv[0]);
+			printf("Unknown argument provided: %s", argv[1]);
 		}
 	}
 	srand(time(NULL));
