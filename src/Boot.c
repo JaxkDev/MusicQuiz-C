@@ -34,7 +34,6 @@ void preboot(){
 		fputs("Mark MarksPassword101", fp);
 		fflush(ptr);
 	}
-	fclose(ptr);
 
 	ptr = fopen("leaderboard.txt", "r");
 	if (ptr==NULL)
@@ -43,7 +42,6 @@ void preboot(){
 		fputs("", fp);
 		fflush(ptr);
 	}
-	fclose(ptr);
 
 	ptr = fopen("music.txt","r");
 	if (ptr==NULL)
@@ -111,5 +109,4 @@ void preboot(){
 		fputs("Homocide Logic",fp);
 		fflush(ptr); //fflush() found this the hard way while using my pi that it can sometimes store data in memory before writing, this forces it to clear cache and write to disk.
 	}
-	fclose(ptr);
 }
