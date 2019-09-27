@@ -36,9 +36,10 @@ int saveScore(Player player){
 };
 
 void showLeaderboard(){
-    
+    puts("Show LB here...");
 };
 
 int getFileSize(char* name){
-    
+    puts("TODO getFileSize();");
+	return 10;
 };
