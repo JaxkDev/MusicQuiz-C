@@ -28,7 +28,7 @@
 #else
 	#include <unistd.h> // linux sleep();
 #endif
-// https://stackoverflow.com/questions/142508/how-do-i-check-os-with-a-preprocessor-directive thanks ;)
+// https://stackoverflow.com/questions/142508/how-do-i-check-os-with-a-preprocessor-directive <----
 
 #include "Auth.h"
 #include "Boot.h"
@@ -156,11 +156,15 @@ void startGame(){
 
 
 	// ---- LEADERBOARD ----
-	// ---- LEADERBOARD ----
+	
 	Player player;
 	player.name = username;
 	player.score = score;
-	saveScore(player);
+	int place = saveScore(player);
+	printf("\nCongratulations '%s' you are #%d on the leaderboard with a score of %d", username, place, score);
+	
+	// ---- LEADERBOARD ----
+	
 	return;
 }
 
@@ -221,7 +225,7 @@ void cleanInput(char* msg){
 	for(int i = 0; i <strlen(msg); i++){
 		if(msg[i] == find) msg[i] = space;
 	}
-	for( ; *msg; ++msg){
+	for(; *msg; ++msg){
 		*msg = tolower(*msg);
 	}
 }
