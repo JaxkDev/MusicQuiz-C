@@ -35,6 +35,7 @@ int saveScore(Player player){
     showLeaderboard();*/
 	
 	//Load data from leaderboard, parse and sort, then find position and save. (return index/position)
+	//Always have 10 items in txt file used for counting the lines.
 	return 1;
 };
 
