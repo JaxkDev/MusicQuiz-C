@@ -27,12 +27,15 @@
 #include "Leaderboard.h"
 
 int saveScore(Player player){
-    FILE *scoreboardfile = fopen("leaderboard.txt", "a");
+    /*FILE *scoreboardfile = fopen("leaderboard.txt", "a");
  
     fprintf(scoreboardfile, "%s %d\n", player.name, player.score);
     fflush(scoreboardfile);
     fclose(scoreboardfile);
-    showLeaderboard();
+    showLeaderboard();*/
+	
+	//Load data from leaderboard, parse and sort, then find position and save. (return index/position)
+	return 1;
 };
 
 void showLeaderboard(){
