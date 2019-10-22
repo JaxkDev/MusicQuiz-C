@@ -39,7 +39,7 @@ void preboot(){
 	if (ptr==NULL)
 	{
 		FILE* fp = fopen("leaderboard.txt", "w");
-		fputs("", fp);
+		fputs("NA 0\nNA 0\nNA 0\nNA 0\nNA 0\nNA 0\nNA 0\nNA 0\nNA 0\nNA 0", fp);
 		fflush(ptr);
 	}
 
