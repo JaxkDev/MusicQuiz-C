@@ -90,6 +90,17 @@ void authLoop(){
 }
 
 void startGame(){
+	Player player;
+	player.name = "Jaxk";
+	player.score = 3;
+	int goton = saveScore(player);
+	if(goton == 1){
+		printf("\nCongratulations '%s' you made it onto the leaderboard !", player.name);
+	} else {
+		printf("\nUnfortunately you didnt make the leaderboard but hopefully you will next time !");
+	}
+	return;
+	/*
 	int score = 0;
 	int try = 1;
 	int question = 1;
@@ -98,7 +109,7 @@ void startGame(){
 	while(playing == 1){
 		char song[BUFSIZE];
 		char tmpName[BUFSIZE];
-		strcpy(song, getRandomSong()); //must copy first as strtok changes string directly and as getRandomSong returns a pointer and so it will change the song and so if used again it will not work.
+		strcpy(song, getRandomSong()); //must copy first as strtok changes string directly and as getRandomSong returns a pointer.
 		char *name = strtok(song, " ");
 		char *artist = strtok(NULL, " ");
 		cleanInput(artist);
@@ -160,12 +171,13 @@ void startGame(){
 	Player player;
 	player.name = username;
 	player.score = score;
-	int place = saveScore(player);
-	printf("\nCongratulations '%s' you are #%d on the leaderboard with a score of %d", username, place, score);
-	
-	// ---- LEADERBOARD ----
-	
-	return;
+	int goton = saveScore(player);
+	if(goton == 1){
+		printf("\nCongratulations '%s' you made it onto the leaderboard !", username);
+	} else {
+		printf("\nUnfortunately you didnt make the leaderboard but hopefully you will next time !");
+	}
+	return;*/
 }
 
 /**
