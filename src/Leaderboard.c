@@ -27,23 +27,48 @@
 #include "Leaderboard.h"
 
 int saveScore(Player player){
-    /*FILE *scoreboardfile = fopen("leaderboard.txt", "a");
+    FILE *scoreboardfile = fopen("leaderboard.txt", "a");
+    
+	Player LoadedP[10];
+	int index, place = 0;
+	
+	//LOADED DATA:
+	
+    for(i = 0; (!feof(scoreboardFile) && i<10); i++)
+    {
+        fscanf(scoreboardFile, "%s %d%*c", LoadedP[i].name, LoadedP[i].score);
+        index++;
+    }
+	
+	//INSERT DATA:
+	if(index != 9){
+		puts("Beware the scoreboard data is not complete and has been tampered with.");
+	}
+	
+	for(i = 0; i <= index; i++){
+		if(LoadedP[i].score < player.score){
+    		for(z=i-1;z>0;z--)
+    		{
+        		LoadedP[z]=LoadedP[z-1];
+    		}
+			LoadedP[i] = player;
+			place = i+1; //starts at 0.
+		}
+	}
+	
+	fclose(scoreboardFile);
+	
+	FILE *scoreboardfile = fopen("leaderboard.txt", "w");
  
-    fprintf(scoreboardfile, "%s %d\n", player.name, player.score);
+	printf("Current Leaderboard:\n");
+    for(i = 0; i <= index; i++){
+		printf("%s : %d\n", LoadedP[i].name, Loaded[i].score);
+		fprintf(scoreboardfile, "%s %d\n", LoadedP[i].name, LoadedP[i].score);
+	}
     fflush(scoreboardfile);
     fclose(scoreboardfile);
-    showLeaderboard();*/
 	
 	//Load data from leaderboard, parse and sort, then find position and save. (return index/position)
 	//Always have 10 items in txt file used for counting the lines.
-	return 1;
-};
-
-void showLeaderboard(){
-    puts("Show LB here...");
-};
-
-int getFileSize(char* name){
-    puts("TODO getFileSize();");
-	return 10;
+	return place;
 };
