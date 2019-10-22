@@ -27,10 +27,10 @@
 #include "Leaderboard.h"
 
 int saveScore(Player player){
-    FILE *scoreboardfile = fopen("leaderboard.txt", "a");
+    FILE *scoreboardFile = fopen("leaderboard.txt", "a");
     
 	Player LoadedP[10];
-	int index, place = 0;
+	int i,index, place = 0;
 	
 	//LOADED DATA:
 	
@@ -47,6 +47,7 @@ int saveScore(Player player){
 	
 	for(i = 0; i <= index; i++){
 		if(LoadedP[i].score < player.score){
+			int z;
     		for(z=i-1;z>0;z--)
     		{
         		LoadedP[z]=LoadedP[z-1];
@@ -62,7 +63,7 @@ int saveScore(Player player){
  
 	printf("Current Leaderboard:\n");
     for(i = 0; i <= index; i++){
-		printf("%s : %d\n", LoadedP[i].name, Loaded[i].score);
+		printf("%s : %d\n", LoadedP[i].name, LoadedP[i].score);
 		fprintf(scoreboardfile, "%s %d\n", LoadedP[i].name, LoadedP[i].score);
 	}
     fflush(scoreboardfile);
