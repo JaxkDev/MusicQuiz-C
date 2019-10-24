@@ -24,9 +24,9 @@
 #include <ctype.h>
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)
-    #include <dos.h> // windows sleep();
+#include <direct.h> // windows sleep();
 #else
-	#include <unistd.h> // linux sleep();
+#include <unistd.h> // linux sleep();
 #endif
 // https://stackoverflow.com/questions/142508/how-do-i-check-os-with-a-preprocessor-directive <----
 
@@ -90,17 +90,6 @@ void authLoop(){
 }
 
 void startGame(){
-	Player player;
-	player.name = "Jaxk";
-	player.score = 3;
-	int goton = saveScore(player);
-	if(goton == 1){
-		printf("\nCongratulations '%s' you made it onto the leaderboard !", player.name);
-	} else {
-		printf("\nUnfortunately you didnt make the leaderboard but hopefully you will next time !");
-	}
-	return;
-	/*
 	int score = 0;
 	int try = 1;
 	int question = 1;
@@ -109,7 +98,7 @@ void startGame(){
 	while(playing == 1){
 		char song[BUFSIZE];
 		char tmpName[BUFSIZE];
-		strcpy(song, getRandomSong()); //must copy first as strtok changes string directly and as getRandomSong returns a pointer.
+		strcpy(song, getRandomSong()); //must copy first as strtok changes string directly and as getRandomSong returns a pointer and so it will change the song and so if used again it will not work.
 		char *name = strtok(song, " ");
 		char *artist = strtok(NULL, " ");
 		cleanInput(artist);
@@ -167,17 +156,21 @@ void startGame(){
 
 
 	// ---- LEADERBOARD ----
-	
+
 	Player player;
-	player.name = username;
+	strcpy(player.name,username);
 	player.score = score;
-	int goton = saveScore(player);
-	if(goton == 1){
-		printf("\nCongratulations '%s' you made it onto the leaderboard !", username);
+
+	int place = saveScore(player);
+
+	if(place != 0){
+		printf("\nCongratulations, you are #%d on the leaderboard.", place);
 	} else {
-		printf("\nUnfortunately you didnt make the leaderboard but hopefully you will next time !");
+		printf("\nUnfortunately you did not make it onto the leaderboard.");
 	}
-	return;*/
+
+	// ---- LEADERBOARD ----
+	return;
 }
 
 /**
@@ -188,8 +181,8 @@ void loadAllSongs(){
 	int i = 0;
 	char buffer[BUFSIZE];
 	FILE *file = fopen("music.txt","r");
-    while(fgets(buffer, BUFSIZE, file)){         
-        if(strcmp(buffer,"\n") != 0 && strcmp(buffer,"") != 0){
+	while(fgets(buffer, BUFSIZE, file)){
+		if(strcmp(buffer,"\n") != 0 && strcmp(buffer,"") != 0){
 			int len = strlen(buffer);
 			if( buffer[len-1] == '\n' )
 				buffer[len-1] = 0; //strip new lines from ending, thanks to St0rmD3v for making it much smaller then what i had :)

@@ -26,48 +26,52 @@
 //Player structure, char* name and int score.
 #include "Leaderboard.h"
 
-struct Player{
-	char* name;
-	int score;
-};
-
 int saveScore(Player player){
     FILE *scoreboardFile = fopen("leaderboard.txt", "r");
     
-	struct Player LoadedP[10];
-	int i,index, place = 0;
+	Player LoadedP[10];
+	int i, place = 0;
+	int size = 0;
 	
 	//LOADED DATA:
-	if(scoreboardFile == NULL){
-		printf("FILE IS NULL\n");
+	
+	if (scoreboardFile == NULL) {
+		puts("ERROR, FILE NOT EXIST (LB)");
+		return 0;
 	}
 	
-    for(i = 0; (i<10); i++)
-    {
-    	char* name;
-    	int score;
-    	printf("run");
-        fscanf(scoreboardFile, "%s %d", name, &score);
-        printf("done");
-        LoadedP[i].name = name;
-        LoadedP[i].score = score;
-        printf("%s %d\n", name, score);
-        index++;
-    }
+	char buf[BUFSIZE];
+	int score;
+	while (fscanf(scoreboardFile, "%s %d", buf, &score) == 2){
+	    Player player;
+	    strcpy(player.name, buf);
+	    player.score = score;
+	    
+	    LoadedP[i] = player;
+	    
+	    i++;
+	    size++;
+	}
 	
-	for(i = 0; i <= index; i++){
+	if(size != 10){
+		puts("Beware the scoreboard data is not complete and has been tampered with.");
+	}
+	
+	for(i = 0; i <= size; i++){
+	    //printf("%d -> %d\n", LoadedP[i].score, player.score);
 		if(LoadedP[i].score < player.score){
-			int z;
-    		for(z=i-1;z>0;z--)
-    		{
-    			int score = LoadedP[z-1].score;
-    			char *user = LoadedP[z-1].name;
-        		LoadedP[z].score = score;
-    			LoadedP[z].name = user;
-    		}
-			LoadedP[i].score = player.score;
-    		LoadedP[i].name = player.name;
+		    int z;
+		    //printf("I: %d, Index: %d\n",i,index);
+		    for(z = size; z > i; z--){
+		        //printf("%d -> %d\n", z-1, z);
+		        strcpy(LoadedP[z].name, LoadedP[z-1].name);
+		        LoadedP[z].score = LoadedP[z-1].score;
+		    }
+		    //LoadedP[i].name = player.name;
+		    strcpy(LoadedP[i].name, player.name);
+		    LoadedP[i].score = player.score;
 			place = i+1; //starts at 0.
+			break;
 		}
 	}
 	
@@ -76,8 +80,8 @@ int saveScore(Player player){
 	FILE *scoreboardfile = fopen("leaderboard.txt", "w");
  
 	printf("Current Leaderboard:\n");
-    for(i = 0; i <= index; i++){
-		printf("%s : %d\n", LoadedP[i].name, LoadedP[i].score);
+    for(i = 0; i < size; i++){
+		printf("%d. %s: %d\n",i+1,LoadedP[i].name, LoadedP[i].score);
 		fprintf(scoreboardfile, "%s %d\n", LoadedP[i].name, LoadedP[i].score);
 	}
     fflush(scoreboardfile);
@@ -85,5 +89,5 @@ int saveScore(Player player){
 	
 	//Load data from leaderboard, parse and sort, then find position and save. (return index/position)
 	//Always have 10 items in txt file used for counting the lines.
-	if(place != 0) return 1;
+	return place;
 };
