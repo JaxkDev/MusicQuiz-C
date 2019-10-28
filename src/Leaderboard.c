@@ -30,8 +30,9 @@ int saveScore(Player player){
     FILE *scoreboardFile = fopen("leaderboard.txt", "r");
     
 	Player LoadedP[10];
-	int i, place = 0;
+	int place = 0;
 	int size = 0;
+	int i = 0;
 	
 	//LOADED DATA:
 	
@@ -58,12 +59,9 @@ int saveScore(Player player){
 	}
 	
 	for(i = 0; i <= size; i++){
-	    //printf("%d -> %d\n", LoadedP[i].score, player.score);
 		if(LoadedP[i].score < player.score){
 		    int z;
-		    //printf("I: %d, Index: %d\n",i,index);
 		    for(z = size; z > i; z--){
-		        //printf("%d -> %d\n", z-1, z);
 		        strcpy(LoadedP[z].name, LoadedP[z-1].name);
 		        LoadedP[z].score = LoadedP[z-1].score;
 		    }
