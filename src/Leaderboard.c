@@ -48,9 +48,8 @@ int saveScore(Player player){
 	    strcpy(player.name, buf);
 	    player.score = score;
 	    
-	    LoadedP[i] = player;
+	    LoadedP[size] = player;
 	    
-	    i++;
 	    size++;
 	}
 	
