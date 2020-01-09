@@ -78,7 +78,7 @@ void authLoop(){
 	char password[BUFSIZE];
 	fgets(password, BUFSIZE, stdin);
 	password[strcspn(password, "\n")] = 0; //remove trailing new lines from fgets.
-	printf("Please wait while we verify your details...\n");]
+	printf("Please wait while we verify your details...\n");
 	sleep(3);
 	if(checkAuth(username, password) == 1){
 		printf("Authentication Success.\n\n");
